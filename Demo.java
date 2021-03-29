@@ -6,5 +6,8 @@ public class Demo {
 
         String greeting = "Hello there my man";
         System.out.println(greeting.charAt(3));
+
+
+        System.out.println("This is " + "concatenation");
     }
 }
