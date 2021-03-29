@@ -19,5 +19,13 @@ public class Demo {
         // 10 % 3 // 1
         x++;
         System.out.println(x/3.0);
+
+        boolean a = true, b = false;
+
+        System.out.println("a && b: " + (a && b));
+        System.out.println("a || b: " + (a || b));
+        System.out.println("!(a && b): " + !(a && b));
+
+
     }
 }
