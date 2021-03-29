@@ -10,8 +10,14 @@ public class Demo {
         String name = input.nextLine();
         String greeting = "Hello there " + name;
         System.out.println(greeting);
-
-
         System.out.println("This is " + "concatenation");
+
+
+        // 5 + 3 // 8
+        // 10 / 3 // 3
+        // 10 / 3.0 // 3.333
+        // 10 % 3 // 1
+        x++;
+        System.out.println(x/3.0);
     }
 }
