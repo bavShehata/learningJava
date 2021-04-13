@@ -40,10 +40,19 @@ public class Demo {
 
         // Methods (2)
 
-        System.out.println(sum(4, 2));
-        int[] arr = { 1, 2, 3, 4 };
-        System.out.println(sum_arr(arr));
+        // System.out.println(sum(4, 2));
+        // int[] arr = { 1, 2, 3, 4 };
+        // System.out.println(sum_arr(arr));
 
+        // Classes (3)
+
+        Employee e1 = new Employee("bavly", 18, 2500.50);
+        Employee e2 = new Employee("bavly", 18, 2500.50);
+        Employee e3 = new Employee("bavly", 18, 2500.50);
+        Employee[] Emp_arr = new Employee[5];
+        Emp_arr[0] = new Employee("Ahmed", 20, 1234);
+        // e1.setAge(5);
+        System.out.println(Employee.getCount());
 
     }
 }
