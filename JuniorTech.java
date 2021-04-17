@@ -10,4 +10,9 @@ public final class JuniorTech extends Technician{
         super.display(); // optional
         System.out.println("And the junior dude");
     }
+
+    // Final (2)
+    public final void show(){
+        System.out.println("This won't work");
+    }
 }
