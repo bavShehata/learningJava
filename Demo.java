@@ -46,13 +46,19 @@ public class Demo {
 
         // Classes (3)
 
-        Employee e1 = new Employee("bavly", 18, 2500.50);
-        Employee e2 = new Employee("bavly", 18, 2500.50);
-        Employee e3 = new Employee("bavly", 18, 2500.50);
-        Employee[] Emp_arr = new Employee[5];
-        Emp_arr[0] = new Employee("Ahmed", 20, 1234);
+        // Employee e1 = new Employee("bavly", 18, 2500.50);
+        // Employee e2 = new Employee("bavly", 18, 2500.50);
+        // Employee e3 = new Employee("bavly", 18, 2500.50);
+        // Employee[] Emp_arr = new Employee[5];
+        // Emp_arr[0] = new Employee("Ahmed", 20, 1234);
         // e1.setAge(5);
-        System.out.println(Employee.getCount());
+        // System.out.println(Employee.getCount());
+        // equals() vs == (3)
 
+        // Equals(5)
+        String s1 = new String("Hola");
+        String s2 = new String("Hola");
+        System.out.println(s1.equals(s2));
+        System.out.println(s1==s2);
     }
 }
