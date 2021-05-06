@@ -1,5 +1,6 @@
 // Final class (2)
-public class JuniorTech extends Technician{
+// Abstract class(4)
+public abstract class JuniorTech extends Technician{
     private int experienceYears;
     public JuniorTech(String name, int age, float salary, int projects, int experience){
         super(name,age,salary, projects);

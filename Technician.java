@@ -7,11 +7,9 @@ public class Technician extends Employee {
         projects_done = projects;
 
     }
-    // Overriding (1)
     public void display(){
         System.out.println("This is the tech");
     }
-    // Final (2)
     public final void show(){
         System.out.println("This can't be changed");
     }
