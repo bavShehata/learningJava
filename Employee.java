@@ -38,6 +38,6 @@ public class Employee extends ICS {
         // protected (1)
         c1.test(); // error
         c2.test(); // works
-        
+
     }
 }

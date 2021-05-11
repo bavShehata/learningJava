@@ -17,6 +17,19 @@ public class Demo {
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
+        int id, firstDigit;
+
+        while (true) {
+            id = input.nextInt();
+            firstDigit = Integer.parseInt(Integer.toString(id).substring(0, 1));
+            if (firstDigit != 2) {
+                System.out.print("Ids must start with 2, please enter a correct one!");
+            } else {
+                System.out.print("Train added: " + id);
+                break;
+            }
+        }
+
         // int x = 5;
         // int y = 3;
         // x = ++y;
@@ -56,9 +69,9 @@ public class Demo {
         // equals() vs == (3)
 
         // Equals(5)
-        String s1 = new String("Hola");
-        String s2 = new String("Hola");
-        System.out.println(s1.equals(s2));
-        System.out.println(s1==s2);
+        // String s1 = new String("Hola");
+        // String s2 = new String("Hola");
+        // System.out.println(s1.equals(s2));
+        // System.out.println(s1==s2);
     }
 }
