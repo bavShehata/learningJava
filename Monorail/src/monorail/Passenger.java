@@ -1,120 +1,150 @@
 package monorail;
 
-import java.util.Scanner;
 import java.util.ArrayList; // import the ArrayList class
+import java.util.Scanner;
 
-public class Passenger extends User{
-    Scanner input = new Scanner(System.in);
+// User defined exception that gets caught whenever a user enters a number out of a range of numbers
+class invalidOption extends Exception {
 
-    protected String firstName;
-    protected String lastName;
-    private ArrayList<Booking> bookings = new ArrayList<Booking>(); // Add it to the UML
-    
-    public Passenger(int ssn, ArrayList<Route> routes, String username, String password, String firstName, String lastName){
-        super(ssn, routes, username, password);
+    int a, b;
+
+    invalidOption(int a, int b) {
+        this.a = a;
+        this.b = b;
+    }
+
+    public String toString() {
+        return ("Invalid option, only values between " + a + " and " + b + " inclusive are available");
+    }
+}
+
+public class Passenger extends User {
+
+    private String firstName;
+    private String lastName;
+    private static ArrayList<Booking> bookings;
+
+    public Passenger() {
+    }
+
+    public Passenger(String username, String password, String firstName, String lastName, ArrayList<Booking> bookings) {
+        super(username, password);
         this.firstName = firstName;
         this.lastName = lastName;
-    }
-    public void addBooking() {
-        int seats, routeNumber, confirm, deptTime,choice;
-        Route route;
-        System.out.println("How many seats do you want to book?");
-        seats = input.nextInt();
-        System.out.println("Which route are you taking?");
-        for(int i  = 0; i < routes.size(); i++){
-            System.out.println("(" + i + ")");
-            routes.get(i).displayroute();
-        }
-        routeNumber = input.nextInt();
-        route = routes.get(routeNumber);
-        System.out.println(
-                "Pick the train with the most suitable departure time, please note it takes 5 minutes between each station.");
-        for (int i = 0; i < route.train[0].departure_time.size(); i++)
-            System.out.println("(" + i + ") " + route.train[0].departure_time.get(i));
-       
-        choice = input.nextInt();
-        deptTime = route.train[0].departure_time.get(choice);
-        System.out.println("Here is the booking info: ");
-        System.out.printf("Name: %s %s %n", firstName, lastName);
-        System.out.printf("SSn: %s %n", ssn); // Still needed
-        System.out.printf("Number of seats: %d %n", seats);
-        System.out.printf("Route number: %d %n", route);
-        System.out.printf("Train departure time: %s %n", deptTime); // Still needed
-        System.out.println("(0) Cancel    (1) Confirm");
-        confirm = input.nextInt();
-        if (confirm == 1) {
-            bookings.add(new Booking(route, deptTime, seats));
-        } else {
-            return;
-        }
+        this.bookings = bookings;
     }
 
-    public void removeBooking() {
-        int booking, confirm;
-        for (int i = 0; i < bookings.size(); i++)
-            bookings.get(i).displayBooking();
-        System.out.println("Pick the booking that you'd want deleted");
-        booking = input.nextInt();
-        System.out.println("Are you sure you want to delete this booking?");
-        System.out.println("(0) Cancel    (1) Confirm");
-        confirm = input.nextInt();
-        if (confirm == 1) {
-            bookings.remove(booking);
-        } else {
-            return;
-        }
-
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void editBooking() {
-        int booking, confirm, done, option, change;
-        Booking myBooking;
-        // display all bockings
-        for (int i = 0; i < bookings.size(); i++)
-            bookings.get(i).displayBooking();
-        System.out.println("Pick the booking that you'd want to edit");
-        booking = input.nextInt();
-        myBooking = bookings.get(booking);
-        do {
-            myBooking.displayBooking();
-            System.out.println("What would you like to edit?");
-            System.out.printf("1 - Number of seats. %n");
-            System.out.printf("2 - Train departure time. %n");
-            option = input.nextInt();
-            switch (option) {
-                case 1:
-                    System.out.println("New number of seats: ");
-                    change = input.nextInt();
-                    if (change < myBooking.tickets.size()) {
-                        for (int i = 0; i < myBooking.tickets.size() - change; i++)
-                            myBooking.tickets.remove(i);
-                        System.out.println("Number of seats changed successfully ");
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-                    } else {
-                        for (int i = 0; i < change - myBooking.tickets.size(); i++)
-                            myBooking.tickets.add(i);
-                        System.out.println("Number of seats changed successfully ");
-                    }
-                    break;
-                case 2:
-                    // Display available train departure times
-                    System.out.println("New departure time: ");
-                    for (int i = 0; i < myBooking.route.train[0].departure_time.size(); i++)
-                       System.out.println("(" + i + ") " + myBooking.route.train[0].departure_time.get(i));
-                    change = input.nextInt();
-                    // Update Booking
-                    myBooking.departureTime = myBooking.route.train[0].departure_time.get(change);
-                    System.out.println("Departure time changed successfully ");
-                    break;
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public ArrayList<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(ArrayList<Booking> bookings) {
+        this.bookings = bookings;
+    }
+
+    public static void addBooking(int seats, Route route, DepartureTime departureTime) {
+            ArrayList<Ticket> createdTickets = new ArrayList<>();
+            ArrayList<Integer> emptySeats;
+  
+            // Create the tickets and reserve the seats
+            emptySeats = departureTime.retrieveEmptySeats(seats);
+            for (int i = 0; i < emptySeats.size(); i++) {
+                createdTickets.add(new Ticket(emptySeats.get(i)));
+                departureTime.reserveSeat(emptySeats.get(i));
             }
-            System.out.println("Would you like to edit anything else?");
-            System.out.println("(1) Yes    (2) No");
-            done = input.nextInt();
-        } while (done != 1);
-        System.out.println("Here is the new ticket info: ");
-        System.out.printf("Name: %s %s %n", firstName, lastName);
-        System.out.printf("SSn: %s %n", ssn);
-        System.out.printf("Number of seats: %s %n", myBooking.tickets.size());
-        System.out.printf("Train departure time: %s %n%n", myBooking.departureTime);
+            // Create booking
+            bookings.add(new Booking(route, departureTime, createdTickets));
+
+    }
+
+    public static void removeBooking(Booking booking) {
+
+        // unreserve seats and remove booking 
+        ArrayList<Ticket> tickets = booking.getTickets();
+        for (int i = 0; i < tickets.size(); i++) {
+            booking.getDepartureTime().unreserveSeat(tickets.get(i).getSeatNumber());
+        }
+        bookings.remove(booking);
+
+    }
+
+    public static boolean updateBooking(Booking myBooking, int option, int change, DepartureTime newDepartureTime) {
+
+        switch (option) {
+            case 1:
+                // If new number is less
+                if (change < myBooking.getTickets().size()) {
+                    // Unreserve seat(s) and Remove tickets
+                    for (int i = 0; i < myBooking.getTickets().size() - change; i++) {
+                        myBooking.getDepartureTime().unreserveSeat(myBooking.getTickets().get(i).getSeatNumber());
+                        myBooking.getTickets().remove(i);
+                    }
+                    System.out.println("Number of seats changed successfully ");
+                    return true;
+                } else {
+                    // If new number is more
+                    // Check whether available or not
+                    ArrayList<Integer> emptySeats = myBooking.getDepartureTime().retrieveEmptySeats(change - myBooking.getTickets().size());
+                    if (emptySeats.size() >= change - myBooking.getTickets().size()) {
+                        for (int i = 0; i < emptySeats.size(); i++) // Add tickets
+                        // Reserve seats
+                        {
+                            myBooking.getTickets().add(new Ticket(emptySeats.get(i)));
+                            myBooking.getDepartureTime().reserveSeat(emptySeats.get(i));
+                        }
+                        System.out.println("Number of seats changed successfully ");
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            case 2:
+                
+                // Update Booking, unreserve seats in old booking and reserver seats in new booking
+                for (int i = 0; i < myBooking.getTickets().size(); i++) {
+                    myBooking.getDepartureTime().unreserveSeat(myBooking.getTickets().get(i).getSeatNumber());
+                }
+                myBooking.setDepartureTime(newDepartureTime);
+                for (int i = 0; i < myBooking.getTickets().size(); i++) {
+                    myBooking.getDepartureTime().reserveSeat(myBooking.getTickets().get(i).getSeatNumber());
+                }
+                System.out.println("Departure time changed successfully ");
+                return true;
+        }
+        
+        return false;
+    }
+        
+    public Booking displayBookings() {
+        try {
+            Scanner input = new Scanner(System.in);
+            for (int i = 0; i < bookings.size(); i++) {
+                System.out.println(i + 1 + "- " + bookings.get(i).display());
+            }
+            int choice = input.nextInt();
+            if (choice > bookings.size() || choice < 1) {
+                throw new invalidOption(1, bookings.size());
+            }
+            return bookings.get(choice - 1);
+        } catch (invalidOption msg) {
+            System.out.println(msg);
+            return new Booking();
+        }
     }
 }

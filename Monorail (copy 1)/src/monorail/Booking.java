@@ -41,8 +41,11 @@ public class Booking {
         this.tickets = tickets;
     }
 
-    public String display() {       
-        return "Booking{" + "route=" + route.display() + ", departureTime=" + departureTime.display() +", Number of Tickets: " + tickets.size() +'}';
+    public String display() {
+        String ticketsPrint = "";
+        for (int i = 0; i < tickets.size(); i++)
+            ticketsPrint += tickets.get(i).display() + "/n";
+        return "Booking{" + "route=" + route + ", departureTime=" + departureTime +", Tickets: " + ticketsPrint +'}';
     }
     
     
